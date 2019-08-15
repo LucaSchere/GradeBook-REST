@@ -1,12 +1,18 @@
-const app = require('express').Router();
+/** initialize express router **/
+const api_controller = require('express').Router();
+
+/** initialize auth routes **/
 const authRoutes = require('./authentication.controller');
 
-app.get('/', (req, res) => {
+/** /api **/
+api_controller.get('/', (req, res) => {
     res.status(200).json({
         message: 'Connected!'
     });
 });
 
-app.use('/auth', authRoutes);
+/** use auth routes /auth **/
+api_controller.use('/auth', authRoutes);
 
-module.exports = app;
+/** export module api controller **/
+module.exports = api_controller;

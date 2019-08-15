@@ -1,7 +1,13 @@
+/** initialize connection **/
 const con = require('../database/connection');
+
+/** initialize crypto object **/
 const crypto = require('crypto');
 
 const authRepo = {
+
+    /** register function to create new database entry
+     *  new user **/
     register: function (user, callback) {
 
         const sql = "INSERT INTO users(username, email, firstname, lastname, birthday, password, salt) VALUES ?";
@@ -24,6 +30,8 @@ const authRepo = {
             }
         });
     },
+    /** login function to check validity of credentials
+     *  login user **/
     login: function (user, callback) {
         const selectStatement = "SELECT * from users where username = ?";
         con.query(selectStatement, user.username, function (err, result) {
@@ -44,4 +52,5 @@ const authRepo = {
     },
 };
 
+/** export module auth repository **/
 module.exports = authRepo;

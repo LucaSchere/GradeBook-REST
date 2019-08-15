@@ -1,9 +1,20 @@
+/** initialize express router **/
 const app = require('express').Router();
-const authRepo = require('../repository/auth.repository');
-const jwt = require('jsonwebtoken');
-const config = require('../config/config');
-const verifyToken = require('./VerifyToken');
 
+/** initialize auth-repository **/
+const authRepo = require('../repository/auth.repository');
+
+/** initialize jwt object**/
+const jwt = require('jsonwebtoken');
+
+/** initialize config **/
+const config = require('../config/config');
+
+/** initialize middleware module verifyToken **/
+const verifyToken = require('./verifyToken');
+
+/** logon post request /api/auth/
+ *  checks for valid token **/
 app.post('/', verifyToken, (req, res) => {
     res.status(200).json({
         success: true,
@@ -12,6 +23,9 @@ app.post('/', verifyToken, (req, res) => {
     });
 });
 
+/** login post request /api/auth/login/
+ *  checks for valid credentials
+ *  returns jwt header **/
 app.post('/login', (req, res) => {
     const user = {
         username: req.body.username,
@@ -34,6 +48,8 @@ app.post('/login', (req, res) => {
 
 });
 
+/** register post request /api/auth/register/
+ *  checks for valid credentials **/
 app.post('/register', (req, res) => {
     const user = {
         username: req.body.username,
@@ -60,4 +76,5 @@ app.post('/register', (req, res) => {
     });
 });
 
+/** export module auth controller **/
 module.exports = app;

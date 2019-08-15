@@ -1,13 +1,21 @@
-var mysql = require('mysql');
-var config = require('../config/config.json');
-var dbConfig = config.development.database;
-var con = mysql.createConnection({
+/** initialize mysql object **/
+const mysql = require('mysql');
+
+/** initialize config **/
+const config = require('../config/config.json');
+
+/** read dbConfig **/
+const dbConfig = config.development.database;
+
+/** define connection-data **/
+const con = mysql.createConnection({
     host: dbConfig.host,
     user: dbConfig.user,
     password: dbConfig.password,
     database: dbConfig.database,
 });
 
+/** establishing a connection **/
 con.connect(function(err) {
     if (err) throw err;
     console.log('----------------------------');
@@ -16,4 +24,5 @@ con.connect(function(err) {
     console.log('----------------------------');
 });
 
+/** export module connection **/
 module.exports = con;

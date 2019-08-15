@@ -1,6 +1,11 @@
+/** initialize jwt object**/
 const jwt = require('jsonwebtoken');
+
+/** initialize config **/
 const config = require('../config/config');
 
+/** middleware function to check the
+ *  validity of the token **/
 function verifyToken(req, res, next) {
     const token = req.header('jwt');
     if (!token)
@@ -14,4 +19,5 @@ function verifyToken(req, res, next) {
     }
 }
 
+/** export module middleware verifyToken **/
 module.exports = verifyToken;
