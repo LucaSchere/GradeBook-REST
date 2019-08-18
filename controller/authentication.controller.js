@@ -28,18 +28,17 @@ app.post('/', verifyToken, (req, res) => {
  *  returns jwt header **/
 app.post('/login', (req, res) => {
     const user = {
-        username: req.body.username,
+        email: req.body.email,
         password: req.body.password,
     };
 
     authRepo.login(user, (state) => {
-        console.log(user);
         if (!state) {
             res.status(400).json({
                 success: false
             });
         } else {
-            const token = jwt.sign({id: user.id, username: user.username}, config.server_secret, {});
+            const token = jwt.sign({id: user.id, email: user.email}, config.server_secret, {});
             res.header('jwt', token).status(200).json({
                 success: true
             });
@@ -52,7 +51,6 @@ app.post('/login', (req, res) => {
  *  checks for valid credentials **/
 app.post('/register', (req, res) => {
     const user = {
-        username: req.body.username,
         email: req.body.email,
         firstname: req.body.firstname,
         lastname: req.body.lastname,

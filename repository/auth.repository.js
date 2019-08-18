@@ -10,7 +10,7 @@ const authRepo = {
      *  new user **/
     register: function (user, callback) {
 
-        const sql = "INSERT INTO users(username, email, firstname, lastname, birthday, password, salt) VALUES ?";
+        const sql = "INSERT INTO users(email, firstname, lastname, birthday, password, salt) VALUES ?";
 
         const salt = crypto.randomBytes(32).toString('hex');
 
@@ -19,7 +19,7 @@ const authRepo = {
         hashedPassword = hashedPassword.digest('hex');
 
         const values = [
-            [user.username, user.email, user.firstname, user.lastname, user.birthday, hashedPassword, salt]
+            [user.email, user.firstname, user.lastname, user.birthday, hashedPassword, salt]
         ];
         con.query(sql, [values], function (err, result) {
             if (err === null || err === undefined) {
@@ -33,8 +33,8 @@ const authRepo = {
     /** login function to check validity of credentials
      *  login user **/
     login: function (user, callback) {
-        const selectStatement = "SELECT * from users where username = ?";
-        con.query(selectStatement, user.username, function (err, result) {
+        const selectStatement = "SELECT * from users where email = ?";
+        con.query(selectStatement, user.email, function (err, result) {
             if (!err && result[0] !== undefined) {
                 let hashedPassword = crypto.createHash('sha256').update(user.password);
                 hashedPassword.update(result[0].salt);
