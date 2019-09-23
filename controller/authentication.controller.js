@@ -32,15 +32,16 @@ app.post('/login', (req, res) => {
         password: req.body.password,
     };
 
-    authRepo.login(user, (state) => {
-        if (!state) {
+    authRepo.login(user, (id) => {
+        if (id === false) {
             res.status(400).json({
                 success: false
             });
         } else {
-            const token = jwt.sign({id: user.id, email: user.email}, config.server_secret, {});
-            res.header('jwt', token).status(200).json({
-                success: true
+            const token = jwt.sign({id: id, email: user.email}, config.server_secret, {});
+            res.status(200).json({
+                success: true,
+                jwt: token
             });
         }
     });
@@ -59,7 +60,6 @@ app.post('/register', (req, res) => {
 
     };
     authRepo.register(user, (state) => {
-        console.log(state);
         if (state === true) {
             res.status(201).json({
                 message: 'Account created',

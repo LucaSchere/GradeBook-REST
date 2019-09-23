@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const config = require('../config/config.json');
 
 /** read dbConfig **/
-const dbConfig = config.development.database;
+const dbConfig = config.database;
 
 /** define connection-data **/
 const con = mysql.createConnection({
