@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 
 /** initialize middleware module verifyToken **/
-const verifyToken = require('./verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 /** logon post request /api/auth/
  *  checks for valid token **/

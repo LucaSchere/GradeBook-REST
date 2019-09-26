@@ -23,13 +23,11 @@ const gradeRepo = {
     },
 
     /** returns all grades by user **/
-    all: function (user, callback) {
-        const selectStatement = "SELECT * from institute where user_id = ?";
-        let institutes = [];
-        con.query(selectStatement, user.id, function (err, result) {
+    all: function (subject_id, callback) {
+        const selectStatement = "SELECT * from grade where subject_id = ?";
+        con.query(selectStatement, subject_id, function (err, result) {
             if (!err && result !== undefined) {
-                result.institutes = institutes;
-
+                callback(result);
             } else {
                 callback(false);
             }

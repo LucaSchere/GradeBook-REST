@@ -6,6 +6,17 @@ const crypto = require('crypto');
 
 const authRepo = {
 
+    authorize: function (query, callback){
+
+        con.query(query, function (err, result) {
+            if (!err && result[0] !== undefined) {
+                callback(result);
+            } else {
+                callback(false);
+            }
+        })
+    },
+
     /** register function to create new database entry
      *  new user **/
     register: function (user, callback) {

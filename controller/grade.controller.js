@@ -4,8 +4,9 @@ const app = require('express').Router();
 /** initialize grade-repository **/
 const gradeRepo = require('../repository/grade.repository');
 
-/** initialize middleware module verifyToken **/
-const verifyToken = require('./verifyToken');
+const verifyToken = require('../middleware/verifyToken');
+
+const isAuthorized = require('../middleware/isAuthorized');
 
 app.post('/create', verifyToken, (req, res) => {
     const grade = {
@@ -30,17 +31,15 @@ app.post('/create', verifyToken, (req, res) => {
     });
 });
 
-app.post('/all', verifyToken, (req, res) => {
-
-    gradeRepo.all(req.user, (result) => {
-        if (result !== false) {
+app.get('/all', [verifyToken, isAuthorized], (req, res) => {
+    gradeRepo.all(req.query.subject_id, function (grades) {
+        if (grades !== false) {
             res.status(201).json({
-                message: 'returned grades',
-                success: true
+                success: true,
+                grades: grades,
             });
         } else {
             res.status(400).json({
-                message: 'Couldnt read Grades',
                 success: false
             });
         }
