@@ -31,6 +31,9 @@ function isAuthorized(req, res, next) {
         }
 
         authRepo.authorize(dbQuery, function (result) {
+            if(result === false){
+                return res.status(400).send({success: false, message: 'no ' + superType+ ' with ID: ' + entity});
+            }
             if(result[0]['user_id'] !== req.user.id){
                 return res.status(401).send({success: false, message: 'Unauthorized.'});
             }
